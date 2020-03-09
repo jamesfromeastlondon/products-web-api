@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Interfaces;
 using WebApi.Models;
 using WebApi.Services;
 
@@ -9,8 +10,8 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class ProductsController : Controller
     {
-        private readonly ProductService productService;
-        public ProductsController(ProductService productService)
+        private readonly IProductService productService;
+        public ProductsController(IProductService productService)
         {
             this.productService = productService;
         }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebApi.Interfaces;
 using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly ApplicationContext applicationContext;
         public ProductService(ApplicationContext applicationContext)

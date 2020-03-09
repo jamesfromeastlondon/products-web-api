@@ -1,41 +1,73 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using WebApi.Interfaces;
+using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                services.AddDbContext<ApplicationContext>(builder =>
+                    builder.UseSqlite(configuration.GetConnectionString("LOCAL_DB_CONNECTION")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationContext>(builder =>
+                    builder.UseSqlite(configuration.GetConnectionString("DB_CONNECTION")));
+            }
+
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<IProductService, ProductService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "WebApi",
+                    Version = "v1",
+                    Description = "Web API for manipulating products within a prepopulated (2 items) database. Coded on a Mac (I don't have a dual boot MacOS/Windows setup) so the database is SQLite rather than MSSQL.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "James",
+                        Url = new Uri("https://www.jamesfromeastlondon.com/coding")
+                    }
+                });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -51,7 +83,11 @@ namespace WebApi
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json/", "WebApi Version 1");
+            });
             app.UseMvc();
         }
     }

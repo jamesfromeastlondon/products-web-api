@@ -7,15 +7,16 @@ namespace WebApi.Models
         [Key]
         public long Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name required")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Image Uri required")]
         public string ImgUri { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Price required")]
         public decimal Price { get; set; }
 
+        /// <summary>Optional description of the product</summary>
         public string Description { get; set; }
 
         public Product(string name, string imgUri, decimal price, string description)

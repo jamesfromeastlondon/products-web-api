@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -44,6 +45,7 @@ namespace WebApi
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

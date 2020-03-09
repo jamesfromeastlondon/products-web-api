@@ -55,7 +55,7 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo {
                     Title = "WebApi",
                     Version = "v1",
-                    Description = "A simple ASP.NET Core Web API for manipulating products with a prepopulated (2 items) database.",
+                    Description = "Web API for manipulating products within a prepopulated (2 items) database. Coded on a Mac (I don't have a dual boot MacOS/Windows setup) so the database is SQLite rather than MSSQL.",
                     Contact = new OpenApiContact
                     {
                         Name = "James",

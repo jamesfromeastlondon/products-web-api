@@ -51,7 +51,16 @@ namespace WebApi
             services.AddTransient<ProductService>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "WebApi",
+                    Version = "v1",
+                    Description = "A simple ASP.NET Core Web API for manipulating products with a prepopulated (2 items) database.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "James",
+                        Url = new Uri("https://www.jamesfromeastlondon.com/coding")
+                    }
+                });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);

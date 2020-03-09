@@ -33,12 +33,12 @@ namespace WebApi
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 services.AddDbContext<ApplicationContext>(builder =>
-        builder.UseSqlite(configuration.GetConnectionString("LOCAL_DB_CONNECTION")));
+                    builder.UseSqlite(configuration.GetConnectionString("LOCAL_DB_CONNECTION")));
             }
             else
             {
                 services.AddDbContext<ApplicationContext>(builder =>
-        builder.UseSqlite(configuration.GetConnectionString("DB_CONNECTION")));
+                    builder.UseSqlite(configuration.GetConnectionString("DB_CONNECTION")));
             }
 
             services.Configure<CookiePolicyOptions>(options =>

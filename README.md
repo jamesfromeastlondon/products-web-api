@@ -14,7 +14,7 @@
 
 ### How to run Project (DotNetCore 2.1 required)
 Visual Studio:<br/>
-  - Run<br/><br/>
+  - Run<br/>
   
 CLI:<br/> 
   - Navigate to project folder
@@ -25,15 +25,15 @@ CLI:<br/>
 • Xunit and Moq\
 • Mock data is generated and consumed within the scope of the test\
 • GetAllProducts() and GetProductId() are Asserted for Product values\
-• UpdateProductId() is Asserted for HttpStatusResponse (204 NoContent) \
+• UpdateProductId() is Asserted for HttpStatusResponse (204 NoContent)
 
 ### How to run UnitTests
 From the menu bar:<br/>
-  - View > Test (test panel should now appear)<br/><br/>
+  - View > Test (test panel should now appear)<br/>
   
 Run Tests:<br/>
-  - Click the play button<br/><br/>
-
+  - Click the play button<br/>
+  
 Debug Tests:<br/>
   - Add breakpoints
   - Right-click on test panel

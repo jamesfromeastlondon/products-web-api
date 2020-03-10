@@ -36,5 +36,32 @@ namespace WebApiUnitTests
             Assert.Equal(productOne.Name, productResultOne);
             Assert.Equal(productTwo.Name, productResultTwo);
         }
+
+        [Fact]
+        public void GetProductById()
+        {
+            // Arrange
+            var product = new Product("testName", "testImgUri", 99.99m, "testDescription");
+
+            var mock = new Mock<IProductService>();
+            mock.Setup(p => p.GetById(0)).Returns(product);
+            var controller = new ProductsController(mock.Object);
+
+            // Act
+            var controllerResult = (controller.Product(0) as JsonResult).Value;
+            var json = JsonConvert.SerializeObject(controllerResult);
+            JObject jObject = JObject.Parse(json);
+
+            var nameResult = jObject.GetValue("product")["Name"];
+            var imgUriResult = jObject.GetValue("product")["ImgUri"];
+            var descriptionResult = jObject.GetValue("product")["Description"];
+            var priceResult = jObject.GetValue("product")["Price"];
+
+            //Assert
+            Assert.Equal("testName", nameResult);
+            Assert.Equal("testImgUri", imgUriResult);
+            Assert.Equal("testDescription", descriptionResult);
+            Assert.Equal("99.99", priceResult);
+        }
     }
 }

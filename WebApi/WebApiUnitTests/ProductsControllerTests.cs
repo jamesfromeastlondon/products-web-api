@@ -63,5 +63,21 @@ namespace WebApiUnitTests
             Assert.Equal("testDescription", descriptionResult);
             Assert.Equal("99.99", priceResult);
         }
+
+        [Fact]
+        public void UpdateProductById()
+        {
+            // Arrange
+            string description = "";
+            var mock = new Mock<IProductService>();
+            mock.Setup(p => p.UpdateProduct(1, description)).Returns(true);
+            var controller = new ProductsController(mock.Object);
+
+            // Act
+            var httpResponseCode = controller.Product(1, description).ToString();
+
+            // Assert
+            Assert.Contains("NoContent", httpResponseCode);
+        }
     }
 }
